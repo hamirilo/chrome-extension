@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "リーディングリスト整理",
+    "description": "拡張機能の名前"
+  },
+  "appDesc": {
+    "message": "Chrome標準のリーディングリストに全画面一覧・検索・タグ・メモ・自動振り分けを追加し、大量の記事をすっきり整理します。",
+    "description": "拡張機能の説明（最大132文字）"
+  },
+  "cmdOpenAction": {
+    "message": "アイコンを押したときと同じ画面を開く(既定はサイドパネル)",
+    "description": "ツールバーアイコンのショートカット説明"
+  },
+  "cmdOpenFull": {
+    "message": "全画面で開く",
+    "description": "全画面表示のショートカット説明"
+  },
+  "cmdAddCurrentTab": {
+    "message": "今のページをリーディングリストに追加",
+    "description": "現在タブ追加のショートカット説明"
+  }
+}

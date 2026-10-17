@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Reading List Manager (リーディングリスト整理)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --border: #334155;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 760px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      font-size: 1.85rem;
+      color: #fff;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: 1.35rem;
+      color: #cbd5e1;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+    h3 {
+      font-size: 1.1rem;
+      color: #e2e8f0;
+      margin-top: 1.25rem;
+    }
+    p, li {
+      color: var(--text-muted);
+    }
+    strong {
+      color: var(--text);
+    }
+    code {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Chrome Extension</span>
+    <h1>Privacy Policy / プライバシーポリシー</h1>
+    <p><strong>Last Updated / 最終更新日:</strong> October 17, 2026</p>
+
+    <h2>English</h2>
+    <h3>1. Overview</h3>
+    <p>Reading List Manager values your privacy. This extension is designed to operate locally within your browser and does <strong>not</strong> collect, store, sell, or transmit any of your personal information, reading habits, or browsing history to external servers.</p>
+
+    <h3>2. Data Storage</h3>
+    <ul>
+      <li><strong>Reading List Items:</strong> Stored directly in Google Chrome's native Reading List via the <code>chrome.readingList</code> API.</li>
+      <li><strong>Tags, Notes, Folders & Settings:</strong> Stored locally on your device using Chrome's local storage (<code>chrome.storage.local</code>).</li>
+      <li>No user data is ever uploaded to external servers or any third-party analytics/advertising services.</li>
+    </ul>
+
+    <h3>3. Network Requests & Third Parties</h3>
+    <ul>
+      <li>By default, the extension communicates directly with websites only to retrieve their favicons (<code>/favicon.ico</code>).</li>
+      <li>If you opt into the optional "Google Favicon Service" in settings, only the website domain name (e.g. <code>example.com</code>) is sent to Google's public favicon service (<code>https://www.google.com/s2/favicons</code>). You can disable this anytime.</li>
+      <li>The extension contains <strong>no tracking codes, no analytics, and no advertising libraries</strong>.</li>
+    </ul>
+
+    <h3>4. Permissions Justification</h3>
+    <ul>
+      <li><code>readingList</code>: Required to read, add, update, and remove items from Chrome's native Reading List.</li>
+      <li><code>storage</code>: Required to save user-defined tags, notes, folder rules, and preferences locally.</li>
+      <li><code>sidePanel</code>: Required to display the reading list within Chrome's native side panel.</li>
+      <li><code>contextMenus</code>: Required to provide quick actions ("Add page", "Add link", "Open full screen") from the right-click menu.</li>
+      <li><code>tabs</code>: Required only to identify the active tab's URL/title for shortcuts (Alt+Shift+R) and to avoid opening duplicate manager tabs.</li>
+      <li><code>favicon</code>: Required to display website favicons stored by Chrome.</li>
+    </ul>
+
+    <hr>
+
+    <h2>日本語</h2>
+    <h3>1. 基本方針</h3>
+    <p>「リーディングリスト整理」(Reading List Manager) は、利用者のプライバシーを最優先に考えて開発されています。本拡張機能はブラウザ内でローカルに完結して動作し、個人情報、閲覧履歴、読書データを外部サーバーに収集・保存・転売・送信することは一切ありません。</p>
+
+    <h3>2. データの保存場所</h3>
+    <ul>
+      <li><strong>リーディングリスト項目:</strong> Chrome標準の <code>chrome.readingList</code> APIを通じて、ブラウザ本体に保存されます。</li>
+      <li><strong>タグ・メモ・フォルダ設定:</strong> Chromeのローカルストレージ (<code>chrome.storage.local</code>) を使用し、お使いの端末内にのみ安全に保存されます。</li>
+      <li>外部サーバーへの送信・同期は行われません。</li>
+    </ul>
+
+    <h3>3. 外部通信および第三者サービス</h3>
+    <ul>
+      <li>デフォルトでは各サイトのファビコンを取得するため、該当ドメインの <code>/favicon.ico</code> のみを直接読み込みます。</li>
+      <li>設定で「Googleのファビコン取得サービス」を有効にした場合に限り、ドメイン名（URL全体や個人情報は含まれません）が Google の公開API (<code>https://www.google.com/s2/favicons</code>) に送信されます。本機能は設定からいつでも無効にできます。</li>
+      <li>広告配信、アクセス解析ツール、トラッカーは一切含まれていません。</li>
+    </ul>
+
+    <h3>4. 権限（Permissions）の利用目的</h3>
+    <ul>
+      <li><code>readingList</code>: Chrome標準のリーディングリストの取得、追加・削除、既読状態更新に必須です。</li>
+      <li><code>storage</code>: タグ、メモ、フォルダ振り分けルール、設定をお使いのPC内に保存するために利用します。</li>
+      <li><code>sidePanel</code>: Chrome標準のサイドパネルUI内にリーディングリストを表示するために利用します。</li>
+      <li><code>contextMenus</code>: 右クリックメニューから「このページを追加」「リンク先を追加」「全画面で開く」を実行するために利用します。</li>
+      <li><code>tabs</code>: ショートカットキー（Alt+Shift+R）で現在開いているページのURL/タイトルを取得する際、および全画面表示時に既存タブを探して二重起動を防ぐためにのみ利用します。</li>
+      <li><code>favicon</code>: Chromeがキャッシュしている各Webサイトのファビコン画像を表示するために利用します。</li>
+    </ul>
+  </div>
+</body>
+</html>

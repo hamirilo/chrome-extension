@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "Reading List Manager",
+    "description": "Name of the extension"
+  },
+  "appDesc": {
+    "message": "Power up Chrome Reading List with full-screen view, tags, notes, search, domain-based auto folders, and bulk actions.",
+    "description": "Description of the extension (up to 132 chars)"
+  },
+  "cmdOpenAction": {
+    "message": "Open panel or full page (default: Side Panel)",
+    "description": "Action shortcut description"
+  },
+  "cmdOpenFull": {
+    "message": "Open full-screen manager",
+    "description": "Open full shortcut description"
+  },
+  "cmdAddCurrentTab": {
+    "message": "Add current page to Reading List",
+    "description": "Add current tab shortcut description"
+  }
+}
