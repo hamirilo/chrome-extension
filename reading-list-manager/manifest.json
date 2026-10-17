@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "リーディングリスト整理",
+  "version": "0.3.1",
+  "description": "Chrome標準のリーディングリストに、全画面の一覧・検索・タグ・メモ・ドメインでの自動振り分け・一括操作を足して、数が増えても整理できるようにします。",
+  "minimum_chrome_version": "120",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["readingList", "storage", "sidePanel", "contextMenus", "tabs", "favicon"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "action": {
+    "default_title": "リーディングリスト整理",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+L" },
+      "description": "アイコンを押したときと同じ画面を開く(既定はサイドパネル)"
+    },
+    "open-full": {
+      "suggested_key": { "default": "Alt+Shift+F" },
+      "description": "全画面で開く"
+    },
+    "add-current-tab": {
+      "suggested_key": { "default": "Alt+Shift+R" },
+      "description": "今のページをリーディングリストに追加"
+    }
+  }
+}

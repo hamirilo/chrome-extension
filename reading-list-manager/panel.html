@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>リーディングリスト整理</title>
+<link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+  <!-- サイドパネルでは出さない(Chromeのサイドパネル自体の見出しに拡張名が出るので、二重になる) -->
+  <header class="top only-full">
+    <div class="brand">
+      <img src="icons/icon32.png" alt="" width="18" height="18" />
+      <span>リーディングリスト整理</span>
+      <span class="brand-count only-full" id="brand-count"></span>
+    </div>
+    <div class="top-actions">
+      <button id="menu-btn" class="icon-btn only-full" popovertarget="menu" title="メニュー" aria-label="メニュー">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="filled"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+      </button>
+    </div>
+    <div id="menu" class="menu" popover>
+      <button data-action="rules">フォルダと自動振り分けの設定</button>
+      <hr />
+      <button data-action="export-json">エクスポート(JSON・バックアップ用)</button>
+      <button data-action="export-csv">エクスポート(CSV・Excel用)</button>
+      <button data-action="import">インポート(JSON)</button>
+      <hr />
+      <button data-action="settings">設定</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- 全画面のときだけ出す左の一覧(表示・絞り込み・フォルダ・サイト・タグ) -->
+    <aside id="nav" class="nav only-full">
+      <section class="nav-sec">
+        <div class="nav-title">表示</div>
+        <div id="nav-status"></div>
+      </section>
+      <section class="nav-sec">
+        <div class="nav-title">絞り込み</div>
+        <div id="nav-flags"></div>
+      </section>
+      <section class="nav-sec">
+        <div class="nav-title">
+          <span>フォルダ</span>
+          <button class="nav-title-btn" data-action="rules" title="フォルダと自動振り分けの設定">振り分け設定</button>
+        </div>
+        <div id="nav-folders"></div>
+      </section>
+      <section class="nav-sec">
+        <div class="nav-title"><span>サイト</span></div>
+        <input id="site-filter" type="search" class="nav-filter" placeholder="サイトを探す" autocomplete="off" />
+        <div id="nav-sites"></div>
+      </section>
+      <section class="nav-sec">
+        <div class="nav-title"><span>タグ</span></div>
+        <div id="nav-tags"></div>
+      </section>
+    </aside>
+
+    <div class="main">
+      <!-- サイドパネルのときだけ、今開いているタブを追加・編集できる欄を出す -->
+      <section id="current" class="current" hidden></section>
+
+      <div class="filters">
+        <div class="search-row">
+          <div class="search">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 0 1 5.18 10.43l4.45 4.44-1.42 1.42-4.44-4.45A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/></svg>
+            <input id="q" type="search" placeholder="検索 (#タグ  site:ドメイン  -除外)   / で移動" autocomplete="off" />
+          </div>
+          <!-- サイドパネルは読むための一覧に絞り、整理(フォルダ・タグ・一括操作・設定など)は全画面に寄せる -->
+          <button id="full-btn" class="full-btn only-panel" title="フォルダ・タグ・並び替え・まとめて整理は全画面で(Alt+Shift+F)">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+            全画面で整理
+          </button>
+        </div>
+        <div class="row-controls">
+          <div class="seg only-panel" id="status-seg" role="tablist">
+            <button data-status="unread">未読 <span class="n"></span></button>
+            <button data-status="read">既読 <span class="n"></span></button>
+            <button data-status="all">すべて <span class="n"></span></button>
+          </div>
+          <div class="result-count only-full" id="result-count"></div>
+          <div class="selects only-full">
+            <select id="sort" title="並び順">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+              <option value="title">タイトル順</option>
+              <option value="domain">サイト順</option>
+            </select>
+            <select id="group" title="まとめ方">
+              <option value="none">まとめない</option>
+              <option value="folder">フォルダごと</option>
+              <option value="domain">サイトごと</option>
+              <option value="tag">タグごと</option>
+              <option value="month">追加月ごと</option>
+            </select>
+          </div>
+        </div>
+        <div class="chips only-full" id="chips"></div>
+      </div>
+
+      <div class="selbar only-full" id="selbar" hidden></div>
+
+      <main id="list" class="list"></main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <!-- サイト一覧の「→」から開く、そのサイトの振り分け先を選ぶメニュー -->
+  <div id="assign-menu" class="menu assign-menu" popover></div>
+
+  <dialog id="settings" class="dialog">
+    <form method="dialog" id="settings-form">
+      <h2>設定</h2>
+      <label class="field">
+        <span>ツールバーのアイコンを押したとき</span>
+        <select name="actionOpens">
+          <option value="sidePanel">サイドパネルで開く</option>
+          <option value="fullPage">全画面(タブ)で開く</option>
+        </select>
+        <small>もう片方は、アイコンを右クリックしたメニューから開けます。</small>
+      </label>
+      <label class="field">
+        <span>一覧から開くとき</span>
+        <select name="openIn">
+          <option value="newTab">新しいタブで開く</option>
+          <option value="currentTab">今のタブで開く(標準のリーディングリストと同じ)</option>
+        </select>
+        <small>Ctrl(⌘)+クリック・中クリックは、どちらの設定でも裏のタブで開きます。全画面のときは常に新しいタブです。</small>
+      </label>
+      <label class="check">
+        <input type="checkbox" name="markReadOnOpen" />
+        <span>一覧から開いたら既読にする</span>
+      </label>
+      <label class="field">
+        <span>「放置」とみなす日数</span>
+        <span class="inline"><input type="number" name="staleDays" min="1" max="3650" /> 日以上未読のまま</span>
+      </label>
+      <label class="field">
+        <span>サイトのアイコン(ファビコン)</span>
+        <select name="faviconSource">
+          <option value="cache">Chromeが覚えているものだけ(通信しない)</option>
+          <option value="site">見つからなければサイトから取得する</option>
+          <option value="google">それでも無ければGoogleのサービスから取得する</option>
+        </select>
+        <small>見つからないサイトは頭文字で表示します。「サイトから取得」は各サイトの /favicon.ico を読みに行きます。「Google」はドメイン名がGoogleに送られます。</small>
+      </label>
+      <label class="check">
+        <input type="checkbox" name="badge" />
+        <span>アイコンに未読数を出す</span>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="settings-cancel" class="btn">やめる</button>
+        <button value="save" class="btn btn-primary">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="rules" class="dialog dialog-wide">
+    <form method="dialog" id="rules-form">
+      <h2>フォルダと自動振り分け</h2>
+      <p class="dialog-desc">
+        フォルダごとに、入れたいサイトを<strong>1行に1つ</strong>書きます。リストにあるものは、書いたサイトに当てはまるフォルダへ自動で振り分けられます(今あるものも、これから追加するものも)。
+      </p>
+      <ul class="dialog-notes">
+        <li><code>github.com</code> … サブドメイン(<code>gist.github.com</code> など)も含む</li>
+        <li><code>qiita.com/tags/javascript</code> … そのページ以下だけ</li>
+        <li>2つ以上に当てはまるときは、長く書いたほう(具体的なほう)が優先</li>
+        <li>1件ずつ手で移したもの(編集欄・一括操作)は、ルールより優先</li>
+      </ul>
+      <div id="rules-list" class="rules-list"></div>
+      <button type="button" id="rules-add" class="btn">＋ フォルダを追加</button>
+      <section id="rules-suggest" class="rules-suggest"></section>
+      <div class="dialog-actions">
+        <button type="button" id="rules-cancel" class="btn">やめる</button>
+        <button value="save" class="btn btn-primary">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="import-file" accept=".json,application/json" hidden />
+
+  <script type="module" src="panel.js"></script>
+</body>
+</html>
