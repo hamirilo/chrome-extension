@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Copy Unlock",
+    "description": "Extension name"
+  },
+  "appDesc": {
+    "message": "Re-enables right-click, text selection and copy on sites that block them. Enabled per site.",
+    "description": "Extension description (max 132 chars)"
+  }
+}
