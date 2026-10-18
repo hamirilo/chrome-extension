@@ -1,0 +1,14 @@
+/* 選択を禁じた指定を上書きする。
+   text ではなく auto にして、入力欄やボタンの既定の振る舞いを残す。 */
+*,
+*::before,
+*::after {
+  -webkit-user-select: auto !important;
+  user-select: auto !important;
+}
+
+/* 選択範囲を透明にして隠す指定も戻す。選べても見えないと使えないため。 */
+::selection {
+  background-color: Highlight !important;
+  color: HighlightText !important;
+}

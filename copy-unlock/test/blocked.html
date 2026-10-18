@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>コピー禁止のテスト</title>
+    <!-- 手で確かめるときは、このフォルダを http で配信して開く（例: npx serve test）。file:// では動かない。
+         blocked.html?strict は、マウスを押すこと自体も取り消す（強力モードでないと選択できない）。 -->
+    <style>
+      body {
+        user-select: none;
+        font: 16px/1.8 system-ui, sans-serif;
+        margin: 40px;
+      }
+      ::selection {
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body oncontextmenu="hits.inline++; return false" onselectstart="return false">
+    <h1>コピー禁止のテスト</h1>
+    <p id="text">この文章は、右クリックも選択もコピーもできないようにしてあります。拡張機能を有効にすると、どれもできるようになるはずです。</p>
+    <textarea id="input" rows="3" cols="40" placeholder="貼り付けも禁止"></textarea>
+    <pre id="log"></pre>
+    <script>
+      // サイトがよく使う禁止のしかたをひと通り入れておく。hits は呼ばれた回数。
+      window.hits = { inline: 0, contextmenu: 0, copy: 0, cut: 0, selectstart: 0, mousedown: 0, keydown: 0, paste: 0, dragstart: 0 };
+      const block = (type, cond = () => true) =>
+        document.addEventListener(type, (e) => {
+          if (!cond(e)) return;
+          hits[type]++;
+          e.preventDefault();
+        });
+      block('contextmenu');
+      block('copy');
+      block('cut');
+      block('selectstart');
+      // ?strict を付けると、マウスを押すこと自体を取り消して選択を禁じる（強力モードで解除する対象）
+      if (new URLSearchParams(location.search).has('strict')) block('mousedown', (e) => e.target.id !== 'input');
+      block('keydown', (e) => (e.ctrlKey || e.metaKey) && ['a', 'c', 'x', 'v'].includes(e.key));
+      block('paste');
+      block('dragstart');
+
+      // window の捕捉段階に先に登録したリスナー。ここで取り消しが効いたかを記録する。
+      window.prevented = [];
+      window.addEventListener(
+        'contextmenu',
+        (e) => {
+          e.preventDefault();
+          window.prevented.push(e.defaultPrevented);
+        },
+        true,
+      );
+    </script>
+  </body>
+</html>

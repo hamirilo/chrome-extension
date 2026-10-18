@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>コピー解除</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="site">
+      <span class="label">このサイト</span>
+      <strong id="host" class="host"></strong>
+    </header>
+
+    <fieldset id="modes" class="modes">
+      <legend class="sr-only">モード</legend>
+      <label><input type="radio" name="mode" value="off" /><span>オフ</span></label>
+      <label><input type="radio" name="mode" value="basic" /><span>標準</span></label>
+      <label><input type="radio" name="mode" value="strong" /><span>強力</span></label>
+    </fieldset>
+
+    <p id="desc" class="desc"></p>
+
+    <div id="notice" class="notice" hidden>
+      <span id="notice-text"></span>
+      <button id="reload" type="button" hidden>再読み込み</button>
+    </div>
+
+    <section class="list">
+      <h2>有効にしたサイト</h2>
+      <ul id="sites"></ul>
+      <p id="empty" class="empty">まだありません</p>
+    </section>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
